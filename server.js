@@ -19,9 +19,11 @@ app.get('/', (req, res) => {
 });
 
 app.post(URI, async (req, res) => {
+  console.log('Received a webhook request:', req.body);
   const { message } = req.body;
 
   if (message && message.text === '/start') {
+    console.log('Received /start command');
     await axios.post(`${TELEGRAM_API}/sendMessage`, {
       chat_id: message.chat.id,
       text: 'Welcome to Hamster Kombat! Click here to play: YOUR_GAME_URL'
