@@ -36,9 +36,11 @@ app.post(URI, async (req, res) => {
 app.listen(PORT, async () => {
   console.log(`Server is running on port ${PORT}`);
   try {
-    await axios.get(`${TELEGRAM_API}/setWebhook?url=${WEBHOOK_URL}`);
+    const res = await axios.post(`${TELEGRAM_API}/setWebhook`, {
+      url: WEBHOOK_URL
+    });
     console.log(`Webhook set to ${WEBHOOK_URL}`);
   } catch (error) {
-    console.error(`Error setting webhook: ${error}`);
+    console.error(`Error setting webhook: ${error.response ? error.response.data : error.message}`);
   }
 });
