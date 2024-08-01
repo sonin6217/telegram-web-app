@@ -1,22 +1,24 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const axios = require('axios');
-const path = require('path');
 require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, 'public')));
 
 const TELEGRAM_API = `https://api.telegram.org/bot${process.env.BOT_TOKEN}`;
 const URI = `/webhook/${process.env.BOT_TOKEN}`;
 const WEBHOOK_URL = `${process.env.WEBHOOK_URL}${URI}`;
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  res.send('Server is running');
 });
+
+app.get(`${URI}/new`, (req, res)=>{
+  res.send("Hello")
+})
 
 app.post(URI, async (req, res) => {
   console.log('Webhook request received:', req.body);
@@ -55,4 +57,9 @@ app.listen(PORT, async () => {
   } catch (error) {
     console.error(`Error setting webhook: ${error.response ? error.response.data : error.message}`);
   }
+});
+
+// Temporary route for testing
+app.get('/test-webhook', (req, res) => {
+  res.send('Test webhook is working');
 });
