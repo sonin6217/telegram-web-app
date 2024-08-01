@@ -42,7 +42,7 @@ app.post(URI, async (req, res) => {
     console.log('No message received in the request');
   }
 
-  return res.send();
+  res.status(200).send('Webhook processed');  // Ensure the response is sent
 });
 
 app.listen(PORT, async () => {
