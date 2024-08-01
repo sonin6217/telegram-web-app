@@ -19,7 +19,7 @@ app.get('/', (req, res) => {
 });
 
 app.post(URI, async (req, res) => {
-  console.log('Received a webhook request:', req.body);
+  console.log('Webhook request received:', req.body);
   const { message } = req.body;
 
   if (message) {
@@ -42,7 +42,7 @@ app.post(URI, async (req, res) => {
     console.log('No message received in the request');
   }
 
-  res.status(200).send('Webhook processed');  // Ensure the response is sent
+  res.status(200).send('Webhook processed');
 });
 
 app.listen(PORT, async () => {
