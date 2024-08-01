@@ -21,18 +21,17 @@ app.get('/', (req, res) => {
 app.post(URI, async (req, res) => {
   console.log('Received a webhook request:', req.body);
   const { message } = req.body;
-  console.log(message);
 
   if (message) {
     console.log(`Message received: ${message.text}`);
     if (message.text === '/start') {
       console.log('Received /start command');
       try {
-        await axios.post(`${TELEGRAM_API}/sendMessage`, {
+        const response = await axios.post(`${TELEGRAM_API}/sendMessage`, {
           chat_id: message.chat.id,
           text: 'Welcome to Hamster Kombat! Click here to play: YOUR_GAME_URL'
         });
-        console.log('Response sent to Telegram');
+        console.log('Response sent to Telegram:', response.data);
       } catch (error) {
         console.error('Error sending message to Telegram:', error.response ? error.response.data : error.message);
       }
@@ -49,7 +48,7 @@ app.post(URI, async (req, res) => {
 app.listen(PORT, async () => {
   console.log(`Server is running on port ${PORT}`);
   try {
-    const res = await axios.post(`${TELEGRAM_API}/setWebhook`, {
+    const response = await axios.post(`${TELEGRAM_API}/setWebhook`, {
       url: WEBHOOK_URL
     });
     console.log(`Webhook set to ${WEBHOOK_URL}`);
